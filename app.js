@@ -7,15 +7,19 @@ const signatureMinus = document.querySelector(".signature-minus");
 const signaturePlus = document.querySelector(".signature-plus");
 const signatureDisplay = document.querySelector(".signature-display");
 
+let bpm = 140;
+let signature = 4;
+
 const clic1 = new Audio("clic1.mp3");
-const clic2 = new Audio("clic2.mp3");
 
 startStop.addEventListener("click", () => {
   clic1.play();
+  if (startStop.textContent === "Start") {
+    startStop.textContent = "Stop";
+  } else {
+    startStop.textContent = "Start";
+  }
 });
-
-let bpm = 140;
-let signature = 4;
 
 function updateMetronome() {
   tempoDisplay.textContent = bpm;
@@ -36,8 +40,6 @@ tempoMinus.addEventListener("click", () => {
     return;
   }
   bpm--;
-  //   tempoDisplay.textContent = bpm;
-  //   tempoSlider.value = bpm;
   updateMetronome();
   maxMinTempo();
 });
@@ -47,22 +49,22 @@ tempoPlus.addEventListener("click", () => {
     return;
   }
   bpm++;
-  //   tempoDisplay.textContent = bpm;
-  //   tempoSlider.value = bpm;
   updateMetronome();
   maxMinTempo();
 });
 
 tempoSlider.addEventListener("input", () => {
   bpm = tempoSlider.value;
-  //   tempoDisplay.textContent = bpm;
-  //   tempoSlider.value = bpm;
   updateMetronome();
   maxMinTempo();
+  if (isPlaying) {
+    clearInterval(intervalId);
+    intervalId = setInterval(playClick, (60 / bpm) * 1000);
+  }
 });
 
 signatureMinus.addEventListener("click", () => {
-  if (signature <= 2) {
+  if (signature <= 1) {
     return;
   }
   signature--;
@@ -79,36 +81,44 @@ signaturePlus.addEventListener("click", () => {
   count = 0;
 });
 
+////////////// CREATION DU CLIC DU METRONOME //////////////
+//audioContext designe un graphe de traitement. il faut créer un audioContext avant de faire quoi que ce soit puisque tout passe dans un context. audioContext.destination permet de lier le son à une destination pour envoyer le son vers les hauts parleurs
+//un oscillateur permet de calculer les échantillons (tableaux d'intensité sonore)
+
+// const volumeSlider = document.querySelector(".volume");
+// const volumeMinus = document.querySelector(".volume-minus");
+// const volumePlus = document.querySelector(".volume-plus");
+// let gainNode1, gainNode2;
+// const oscillatorVolume = 0.5;
+
 let audioContext;
 let isPlaying = false;
 let intervalId;
 //compteur pour alterner les clics
 let count = 0;
 
-//audioContext designe un graphe de traitement. il faut créer un audioContext avant de faire quoi que ce soit puisque tout passe dans un context. audioContext.destination permet de lier le son à une destination pour envoyer le son vers les hauts parleurs
 function createAudioContext() {
   audioContext = new window.AudioContext();
 }
-
-//un oscillateur permet de calculer les échantillons (tableaux d'intensité sonore)
 function createOscillators() {
   const oscillator1 = audioContext.createOscillator();
   oscillator1.connect(audioContext.destination);
-  oscillator1.frequency.value = 700; // Réglage de frequence du son
+  oscillator1.frequency.value = 700; // Réglage frequence son
+  // oscillator1.connect(gainNode1);
 
   const oscillator2 = audioContext.createOscillator();
   oscillator2.connect(audioContext.destination);
   oscillator2.frequency.value = 950;
+  //oscillator2.connect(gainNode2);
 
   return { oscillator1, oscillator2 };
 }
 
 function playClick() {
   const { oscillator1, oscillator2 } = createOscillators();
-  // alterner les clics en fonction du compteur count
   let currentOscillator;
-
-  //si count est un multiple de signature alors on joue le son du clic2 sinon on joue le son du clic1
+  // alterner les clics en fonction du compteur
+  //si count est un multiple de signature alors on joue le son du osc2 sinon on joue le son du osc1
   if (count % signature === 0) {
     currentOscillator = oscillator2;
   } else {
@@ -121,7 +131,6 @@ function playClick() {
     currentOscillator.stop(); // pour arreter le son du clic;
   }, 50); // Réglage de la durée du son (ms)
   count++;
-  //console.log("count", count);
 }
 
 function start() {
@@ -130,11 +139,20 @@ function start() {
       createAudioContext();
     }
 
+    // // Créer les gainNodes pour le contrôle du volume
+    // gainNode1 = audioContext.createGain();
+    // gainNode1.connect(audioContext.destination);
+    // gainNode1.gain.value = 1;
+
+    // gainNode2 = audioContext.createGain();
+    // gainNode2.connect(audioContext.destination);
+    // gainNode2.gain.value = 1;
+
     // intervalId permet de stocker l'id de l'interval pour pouvoir l'arreter avec clearInterval
+
     intervalId = setInterval(playClick, (60 / bpm) * 1000);
     isPlaying = true;
   }
-  // console.log("intervalid", intervalId);
 }
 
 function stop() {
@@ -151,3 +169,28 @@ startStop.addEventListener("click", () => {
     start();
   }
 });
+
+// // Event listener pour le contrôle de volume
+// volumeSlider.addEventListener("input", () => {
+//   gainNode1.gain.value = volumeSlider.value * oscillatorVolume;
+//   gainNode2.gain.value = volumeSlider.value * oscillatorVolume;
+//   volumeSlider.value = gainNode1.gain.value * 100 + "%";
+// });
+
+// volumeMinus.addEventListener("click", () => {
+//   if (gainNode1.gain.value <= 0) {
+//     return;
+//   }
+//   gainNode1.gain.value -= 0.1;
+//   gainNode2.gain.value -= 0.1;
+//   volumeSlider.value = gainNode1.gain.value * 100 + "%";
+// });
+
+// volumePlus.addEventListener("click", () => {
+//   if (gainNode1.gain.value >= 5) {
+//     return;
+//   }
+//   gainNode1.gain.value += 0.1;
+//   gainNode2.gain.value += 0.1;
+//   volumeSlider.value = gainNode1.gain.value * 100 + "%";
+// });
