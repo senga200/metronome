@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Metronome</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="metronome">
+        <div class="bpm-display">
+          <span class="tempo">140</span>
+          <span class="bpm">BPM</span>
+        </div>
+        <!-- <div class="tempo-text">super Fast</div> -->
+        <div class="tempo-settings">
+          <button class="tempo-minus">-</button>
+          <input type="range" min="20" max="280" step="1" class="slider" />
+          <button class="tempo-plus">+</button>
+        </div>
+        <div class="controls">
+          <button class="start-stop">START</button>
+          <div class="signature">
+            <button class="signature-minus stepper">-</button>
+            <div class="signature-display">4</div>
+            <button class="signature-plus stepper">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
