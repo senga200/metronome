@@ -14,10 +14,10 @@ const clic1 = new Audio("clic1.mp3");
 
 startStop.addEventListener("click", () => {
   clic1.play();
-  if (startStop.textContent === "Start") {
-    startStop.textContent = "Stop";
-  } else {
+  if (startStop.textContent === "Stop") {
     startStop.textContent = "Start";
+  } else {
+    startStop.textContent = "Stop";
   }
 });
 
