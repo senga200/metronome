@@ -1,0 +1,3 @@
+https://jolicode.com/blog/jouer-de-la-musique-dans-le-navigateur-avec-la-web-audio-api
+https://www.w3.org/TR/webaudio/
+https://developer.mozilla.org/en-US/docs/Web/API/AudioNode
