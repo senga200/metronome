@@ -193,6 +193,49 @@ input[type=range]::-moz-range-track {
     margin-top: 0.9rem;
 }
 
+footer {
+    border-top: 3px solid #636363;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 8rem;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.5;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #91ce09;
+    background-color: #3e3e3e;
+}
+
+.links {
+    text-align: end;
+}
+
+footer a {
+    color: #91ce09;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #ebf808;
+}
+
+footer a:active {
+    color: #91ce09;
+}
+
+.avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+img {
+    width: 75%;
+}
+
+
 
 
 @media screen and (max-width: 768px) {
@@ -237,5 +280,9 @@ input[type=range]::-moz-range-track {
 
     .signature-display {
         font-size: 14px;
+    }
+
+    footer {
+        display: none;
     }
 }
