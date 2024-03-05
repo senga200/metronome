@@ -240,8 +240,7 @@ img {
 
 @media screen and (max-width: 768px) {
     .metronome {
-        width: 300px;
-        height: 300px;
+        width: 100vh;
     }
 
     .bpm-display {
@@ -269,6 +268,7 @@ img {
 
     .signature {
         font-size: 14px;
+        width: 8rem;
     }
 
     .signature .stepper {
