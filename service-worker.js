@@ -1,12 +1,12 @@
 const CACHE_NAME = "pwa-cache-v2";
 const FILES_TO_CACHE = [
   "index.html",
-  "/styles.css",
-  "/app.js",
-  "/triangle.png",
-  "/profilepix.png",
-  "/offline.html",
-  "/clic1.mp3",
+  "style.css",
+  "app.js",
+  "triangle.png",
+  "profilepix.png",
+  "offline.html",
+  "clic1.mp3",
 ];
 
 //  INSTALL - Mise en cache des fichiers statiques
