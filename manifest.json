@@ -1,0 +1,17 @@
+{
+    "name": "metronome",
+    "short_name": "metronome",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff",
+    "description": "A basic metronome web app",
+    "icons": [
+        {
+            "src": "./triangle.png",
+            "sizes": "72x72",
+            "type": "image/png"
+        }
+    ]
+        
+}
