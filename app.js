@@ -1,8 +1,3 @@
-navigator.serviceWorker
-  .register("/service-worker.js")
-  .then(() => console.log("Service Worker enregistré 🎉"))
-  .catch((err) => console.log("Erreur Service Worker 😢", err));
-
 const tempoDisplay = document.querySelector(".tempo");
 const tempoMinus = document.querySelector(".tempo-minus");
 const tempoPlus = document.querySelector(".tempo-plus");
