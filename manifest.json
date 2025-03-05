@@ -2,6 +2,7 @@
     "name": "metronome",
     "short_name": "metronome",
     "start_url": "./index.html",
+    "id" : "https://senga200.github.io/metronome/",
     "display": "standalone",
     "theme_color": "#000000",
     "background_color": "#ffffff",
