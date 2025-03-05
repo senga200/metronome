@@ -18,36 +18,38 @@ self.addEventListener("install", (event) => {
   );
 });
 
-//  ACTIVATE - Suppression des anciens caches
-self.addEventListener("activate", (event) => {
+// Installation : met les fichiers en cache
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys
-          .filter((key) => key !== CACHE_NAME) // Garde seulement le cache actuel
-          .map((key) => caches.delete(key)) // Supprime les anciens caches
-      );
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE))
   );
+  self.skipWaiting(); // Active le service worker immédiatement
 });
 
-//  FETCH -  requetes + cache dynamique
+// Activation : nettoie les anciens caches
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(
+          keys
+            .filter((key) => key !== CACHE_NAME)
+            .map((key) => caches.delete(key))
+        )
+      )
+  );
+  self.clients.claim();
+});
+
+// Fetch : sert les fichiers depuis le cache ou le réseau
 self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches
-      .match(event.request, { ignoreSearch: true })
-      .then((cachedResponse) => {
-        return (
-          cachedResponse ||
-          fetch(event.request)
-            .then((response) => {
-              return caches.open(CACHE_NAME).then((cache) => {
-                cache.put(event.request, response.clone()); //  Cache dynamique
-                return response;
-              });
-            })
-            .catch(() => caches.match("/offline.html")) //   offline
-        );
-      })
+    caches.match(event.request).then((response) => {
+      return (
+        response ||
+        fetch(event.request).catch(() => caches.match("offline.html"))
+      );
+    })
   );
 });
